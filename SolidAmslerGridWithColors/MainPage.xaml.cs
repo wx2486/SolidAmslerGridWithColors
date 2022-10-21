@@ -21,11 +21,13 @@ public partial class MainPage : ContentPage
 
         double longEdge = Math.Max(this.Bounds.Width, this.Bounds.Height);
         double shortEdge = Math.Min(this.Bounds.Width, this.Bounds.Height);
-        double infoButtonSize = Math.Max(longEdge / 2.0, shortEdge) / 20.0;
+        double infoButtonSize = Math.Max(longEdge / 2.0, shortEdge) / 15.0;
         Rect infoButtonBounds = new Rect(this.Bounds.Left, this.Bounds.Top, infoButtonSize, infoButtonSize);
 
         mainLayout.SetLayoutFlags(infoButton, AbsoluteLayoutFlags.None);
         mainLayout.SetLayoutBounds(infoButton, infoButtonBounds);
+
+        infoButton.Source = ImageSource.FromStream(() => FileSystem.OpenAppPackageFileAsync("Info.png").Result);
 
         GraphicsView mainFrame = mainLayout.First(_ => (_ as Element).ClassId is "MainFrame") as GraphicsView;
         mainLayout.SetLayoutFlags(mainFrame, AbsoluteLayoutFlags.None);
