@@ -1,4 +1,5 @@
-﻿using Microsoft.Maui.Layouts;
+﻿using Microsoft.Maui.Graphics;
+using Microsoft.Maui.Layouts;
 
 namespace SolidAmslerGridWithColors;
 
@@ -42,11 +43,26 @@ public class MainFrame : IDrawable
         canvas.FillColor = Colors.SaddleBrown;
         canvas.FillRectangle(rectF);
 
+        var center = new Point(rectF.Width / 2.0, rectF.Height / 2.0);
+
         canvas.FillColor = Colors.Aqua;
         int size = 7;
-        for (int row = 0; row * size < rectF.Height; row++)
-            for (int col = 0; col * size < rectF.Width; col++)
+        for (int row = 0; row * size < center.Y; row++)
+            for (int col = 0; col * size < center.X; col++)
                 if (row % 2 == 0 && (row + col) % 2 == 0)
-                    canvas.FillRectangle(col * size, row * size, size, size);
+                {
+                    double left = center.X - col * size - 3 * size / 2.0;
+                    double right = center.X + col * size + size / 2.0;
+                    double top = center.Y - row * size - 3 * size / 2.0;
+                    double bottom = center.Y + row * size + size / 2.0;
+
+                    canvas.FillRectangle((float)left, (float)top, size, size);
+                    canvas.FillRectangle((float)left, (float)bottom, size, size);
+                    canvas.FillRectangle((float)right, (float)top, size, size);
+                    canvas.FillRectangle((float)right, (float)bottom, size, size);
+                }
+
+        canvas.FillColor = Colors.Black;
+        canvas.FillCircle(center, size * 1.2);
     }
 }
